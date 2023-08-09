@@ -47,7 +47,7 @@ const data=[
     
 },
   {
-      LoanID:2986,
+      LoanID:2985,
       FullName:'ვერა ფხაკაძე',
       ClientID:2508,
       CardNumber:37001001632,
@@ -65,7 +65,7 @@ const data=[
       Status:<button onClick={editHandler}>edit</button>
     },
     {
-      LoanID:5876,
+      LoanID:5875,
       FullName:'მურადი ჯულაყიძე',
       ClientID:4809,
       CardNumber:37001001510,

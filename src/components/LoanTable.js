@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import DataTable from 'react-data-table-component';
 import Select from 'react-select'
 import classes from './LoanTable.module.css'
@@ -10,19 +10,46 @@ const options = [
 
 
 export const LoanTable = (props) => {
+
+  const [packN,setPackN]=useState([]) // შეკვრის N
+  const [boxN,setBoxN]=useState([]) //ყუთის N
+  const [savedData,setSavedData]=useState([])  // {id , value}
+
+ 
    
   const handleCheck = (e, row) => {
-    console.log(e, row);
-};
+    
+    const existinItem=savedData.find(item=>{return item.id===row.LoanID})
+    if (!existinItem){
+      setSavedData((prevState)=>([...prevState,{id:row.LoanID,value:e.value}]));
+    } else {
+            existinItem.id=row.LoanID;
+            existinItem.value=e.value;
+    }
+    
+     console.log(savedData);
+     
+ };
+const handlePackN=(value)=>{
+setPackN(value)
+
+
+
+}
+const handleBoxN=(value)=>{
+  setBoxN(value)
+
+
+}
   
   
-  
-    // Check current page has selected items
+  // Check current page has selected items
     
   
   const columns=[
     {
       name: 'სესხის N',
+      
       selector: row => row.LoanID,
   },
     {
@@ -55,14 +82,31 @@ export const LoanTable = (props) => {
     cell: (row) => (
       <Select className={classes.select} options={options} onChange={(e) => handleCheck(e,row)}/>
     ),
-}
+    
+},
+  {
+    name: "შეკვრის N",
+    
+    cell: (row) => (
+    
+      <input className={classes.input} type='text' onChange={(e)=>handlePackN(e.target.value)}/>
+    ),
+},
+  {
+    name: "ყუთის N",
+    
+    cell: (row) => (
+      <input className={classes.input} type='text' onChange={(e)=>handleBoxN(e.target.value)}/>
+    ),
+},
+  
   ];
+
 
   const data = props.loans
   return (
 
-     <DataTable columns={columns} data={data} 
-    
+     <DataTable columns={columns} data={data} fixedHeader 
     />
   )
 }
