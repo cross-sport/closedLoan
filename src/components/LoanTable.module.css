@@ -4,12 +4,28 @@
     width: 10rem;
     color: rgb(6, 172, 238);
     border-color: #39d10b;
+    border-radius: 2rem;
 }
 
 .input {
     width: 6rem;
     height: 2.5rem;
     color: rgb(97, 101, 102);
-    border: 1px solid rgb(97, 101, 102);;
+    border: 1px solid rgb(177, 177, 177);
+    border-radius: 7%;
 }
 
+.input:focus{
+    outline: none;
+    border-radius: 7%;
+    border:1px solid rgb(6, 172, 238);
+}
+
+.btn{
+    text-align: left;
+}
+.ico{
+    
+    width: 1rem;
+    height: auto;
+}

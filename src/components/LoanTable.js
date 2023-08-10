@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import DataTable from 'react-data-table-component';
 import Select from 'react-select'
 import classes from './LoanTable.module.css'
+import acc from "./acc.png"
+
+
 
 const options = [
   { value: 'მიღებული', label: 'მიღებული' },
@@ -14,6 +17,7 @@ export const LoanTable = (props) => {
   const [packN,setPackN]=useState([]) // შეკვრის N
   const [boxN,setBoxN]=useState([]) //ყუთის N
   const [savedData,setSavedData]=useState([])  // {id , value}
+  const [data,setData]=useState(props.loans)
 
  
    
@@ -27,21 +31,49 @@ export const LoanTable = (props) => {
             existinItem.value=e.value;
     }
     
-     console.log(savedData);
+    colorHandler(row,false)
      
  };
-const handlePackN=(value)=>{
+const handlePackN=(value,row)=>{
 setPackN(value)
-
-
+colorHandler(row,false)
 
 }
-const handleBoxN=(value)=>{
+const handleBoxN=(value,row)=>{
   setBoxN(value)
-
-
+  colorHandler(row,false)
 }
   
+// accept
+const accepHandler=(e,row)=>{
+ e.preventDefault()
+ colorHandler(row,true)
+ 
+}
+//accept color
+
+const colorHandler=(row,action)=>{
+  const updatedData = data.map(item => {
+    if (row.LoanID !== item.LoanID) {
+      return item;
+    }
+  
+    return {
+      ...item,
+      toggleSelected: action
+    };
+  });
+  
+  setData(updatedData);
+}
+const conditionalRowStyles = [
+  {
+    when: row => row.toggleSelected,
+    style: {
+      backgroundColor: "#e8fed5",
+      userSelect: "none"
+    }
+  }];
   
   // Check current page has selected items
     
@@ -49,7 +81,7 @@ const handleBoxN=(value)=>{
   const columns=[
     {
       name: 'სესხის N',
-      
+      width: "6rem" ,      
       selector: row => row.LoanID,
   },
     {
@@ -79,6 +111,7 @@ const handleBoxN=(value)=>{
   {
     name: "სტატუსი",
     selector: row => row.Status,
+    
     cell: (row) => (
       <Select className={classes.select} options={options} onChange={(e) => handleCheck(e,row)}/>
     ),
@@ -89,24 +122,37 @@ const handleBoxN=(value)=>{
     
     cell: (row) => (
     
-      <input className={classes.input} type='text' onChange={(e)=>handlePackN(e.target.value)}/>
+      <input className={classes.input} type='text' onChange={(e)=>handlePackN(e.target.value,row)}/>
     ),
 },
   {
     name: "ყუთის N",
     
     cell: (row) => (
-      <input className={classes.input} type='text' onChange={(e)=>handleBoxN(e.target.value)}/>
+      <input className={classes.input} type='text' onChange={(e)=>handleBoxN(e.target.value,row)}/>
     ),
+},
+{
+  
+  width: "4.5rem" ,
+  cell: (row) => (
+    <a href='submit' className={classes.btn}  onClick={(e)=>accepHandler(e,row)}><img className={classes.ico} src={acc}></img></a>
+    
+  ),
 },
   
   ];
 
+  // const data = props.loans
 
-  const data = props.loans
+  
+
+
+  console.log(data);
+
+  
   return (
 
-     <DataTable columns={columns} data={data} fixedHeader 
-    />
+     <DataTable columns={columns} data={data} fixedHeader pagination conditionalRowStyles={conditionalRowStyles}   />
   )
 }

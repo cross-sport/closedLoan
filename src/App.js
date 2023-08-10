@@ -25,7 +25,8 @@ const data=[
       CloseDate:'2011-02-15 00:00:00.000',
       Disbursed_Officer:"გიორგი კილაძე",
       ApplicationNode:"ქუთაისი 1",
-      Status:<button onClick={editHandler}>edit</button>
+      Status:"naw",
+      toggleSelected:false
     },
     {
       LoanID:5876,
@@ -43,7 +44,8 @@ const data=[
       CloseDate:'2011-02-15 00:00:00.000',
       Disbursed_Officer:"გიორგი კილაძე",
       ApplicationNode:"ქუთაისი 1",
-      Status:<button onClick={editHandler}>edit</button>
+      Status:<button onClick={editHandler}>edit</button>,
+      toggleSelected:false
     
 },
   {
@@ -62,7 +64,8 @@ const data=[
       CloseDate:'2011-02-15 00:00:00.000',
       Disbursed_Officer:"გიორგი კილაძე",
       ApplicationNode:"ქუთაისი 1",
-      Status:<button onClick={editHandler}>edit</button>
+      Status:<button onClick={editHandler}>edit</button>,
+      toggleSelected:false
     },
     {
       LoanID:5875,
@@ -80,7 +83,28 @@ const data=[
       CloseDate:'2011-02-15 00:00:00.000',
       Disbursed_Officer:"გიორგი კილაძე",
       ApplicationNode:"ქუთაისი 1",
-      Status:<button onClick={editHandler}>edit</button>
+      Status:<button onClick={editHandler}>edit</button>,
+      toggleSelected:false
+    
+},
+    {
+      LoanID:5878,
+      FullName:'მურადი ჯულაყიძე',
+      ClientID:4809,
+      CardNumber:37001001510,
+      LoanAgreementNo:'K/06076',
+      LoanAmount:1000.00,
+      ISO:'GEL',
+      DisburseDate:'2006-05-19 00:00:00.000',
+      CoverDate:'2007-03-19 00:00:00.000',
+      Product:"განვადება",
+      LoanNode:"სამტრედია",
+      LoanOfficer:'გიორგი კილაძე',
+      CloseDate:'2011-02-15 00:00:00.000',
+      Disbursed_Officer:"გიორგი კილაძე",
+      ApplicationNode:"ქუთაისი 1",
+      Status:<button onClick={editHandler}>edit</button>,
+      toggleSelected:false
     
 }]
 
