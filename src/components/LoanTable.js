@@ -3,6 +3,8 @@ import DataTable from 'react-data-table-component';
 import Select from 'react-select'
 import classes from './LoanTable.module.css'
 import acc from "./acc.png"
+import { useContext } from 'react';
+import DataContext from '../context/data-context';
 
 
 
@@ -13,6 +15,7 @@ const options = [
 
 
 export const LoanTable = (props) => {
+  const ctx=useContext(DataContext)
 
   const [packN,setPackN]=useState([]) // შეკვრის N
   const [boxN,setBoxN]=useState([]) //ყუთის N
@@ -47,6 +50,19 @@ const handleBoxN=(value,row)=>{
 // accept
 const accepHandler=(e,row)=>{
  e.preventDefault()
+ // დაექსეპტებული ობჯექტი
+ //შესასწორებელი
+ const accptInfo={
+  loanId:savedData.LoanID,
+  Status:savedData.value,
+  packN:packN,
+  boxN:boxN,
+  savedData:savedData 
+ }
+ 
+ ctx.updateData(accptInfo)
+
+ 
  colorHandler(row,true)
  
 }
@@ -148,11 +164,12 @@ const conditionalRowStyles = [
   
 
 
-  console.log(data);
+ 
 
+  console.log(ctx.sendData);
   
   return (
 
-     <DataTable columns={columns} data={data} fixedHeader pagination conditionalRowStyles={conditionalRowStyles}   />
+     <DataTable columns={columns} data={data} fixedHeader  conditionalRowStyles={conditionalRowStyles}   />
   )
 }

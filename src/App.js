@@ -3,11 +3,10 @@ import React, { useState }  from 'react';
 import './App.css';
 import Searche from './components/Searche'
 import { LoanTable } from './components/LoanTable';
+
 const editHandler=(event)=>{
   console.log(event);
-  
-  
-}
+ }
 const data=[
   {
       LoanID:2986,
@@ -111,11 +110,11 @@ const data=[
 function App() {
  const [loans,setLoans]=useState(data)
 
- let content=<p>loading</p>
+//  let content=<p>loading</p>
   
-  if (loans.length > 0) {
-    content = <Searche/>;
-  }
+//   if (loans.length > 0) {
+//     content = <Searche/>;
+//   }
 
   return (
     <React.Fragment>
