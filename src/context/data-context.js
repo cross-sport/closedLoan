@@ -13,9 +13,23 @@ export const DataContextProvider=(props)=>{
     const [sendData,setSendData]=useState([])
     
     const updateData=(newData)=>{
-        console.log(newData);
+        console.log('newdata',newData);
+        console.log('senddata',sendData);
         
-        setSendData((prevState)=>([...prevState,newData]));               
+
+        const existinItem=sendData.find(item=>{return item.loanId===newData.loanId})
+        console.log(existinItem);
+        
+        if (!existinItem){
+            setSendData((prevState)=>([...prevState,newData]));    
+        } else {
+                existinItem.loanId=newData.loanId
+                existinItem.Status=newData.Status
+                existinItem.packN=newData.packN
+                existinItem.boxN=newData.boxN
+        }
+        
+                   
     }
 
     return <DataContext.Provider value={{

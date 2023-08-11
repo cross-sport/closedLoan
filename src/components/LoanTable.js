@@ -17,51 +17,94 @@ const options = [
 export const LoanTable = (props) => {
   const ctx=useContext(DataContext)
 
-  const [packN,setPackN]=useState([]) // შეკვრის N
-  const [boxN,setBoxN]=useState([]) //ყუთის N
-  const [savedData,setSavedData]=useState([])  // {id , value}
+ 
+  const [savedData,setSavedData]=useState([])  // {id , status,packN,boxN}
   const [data,setData]=useState(props.loans)
 
- 
-   
-  const handleCheck = (e, row) => {
+  const acceptHandlerF =(column, row, value)=>{
+    console.log("column    ",column);
+    console.log("value    ",value);
     
     const existinItem=savedData.find(item=>{return item.id===row.LoanID})
-    if (!existinItem){
-      setSavedData((prevState)=>([...prevState,{id:row.LoanID,value:e.value}]));
-    } else {
-            existinItem.id=row.LoanID;
-            existinItem.value=e.value;
-    }
+   
     
-    colorHandler(row,false)
-     
- };
-const handlePackN=(value,row)=>{
-setPackN(value)
-colorHandler(row,false)
+    // const existinItemId=savedDataTest.indexOf(existinItem)
+    if (!existinItem){
+      setSavedData((prevState)=>([...prevState,Object.assign({id:row.LoanID, [column]:column=value})]));
+       } 
+       else { 
+                existinItem.id=row.LoanID;
+                existinItem[column]=value
+            }
 
-}
-const handleBoxN=(value,row)=>{
-  setBoxN(value)
-  colorHandler(row,false)
-}
+       colorHandler(row,false)
+  }
+ 
+   
+//   const handleCheck = (e, row) => {
+//     // setSavedData({id:row.LoanID,value:e.value})
+//     // setSavedData((prevState)=>({id:row.LoanID,status:e.value,packN:prevState.packN,boxN:prevState.boxN}))
+//     const existinItem=savedData.find(item=>{return item.id===row.LoanID})
+//     const existinItemId=savedData.indexOf(existinItem)
+//     console.log('id',existinItemId);
+//     if (!existinItem){
+//       setSavedData((prevState)=>([...prevState,{id:row.LoanID,status:e.value}]));
+//        } 
+//        else { 
+//                 existinItem.id=row.LoanID;
+//                 existinItem.status=e.value;
+               
+//        }
+    
+//     colorHandler(row,false)
+     
+//  };
+// const handlePackN=(e,row)=>{
+
+//   const existinItem=savedData.find(item=>{return item.id===row.LoanID})
+//     const existinItemId=savedData.indexOf(existinItem)
+//     console.log('id',existinItemId);
+//     if (!existinItem){
+//       setSavedData((prevState)=>([...prevState,{id:row.LoanID,packN:e.target.value}]));
+//        } 
+//        else {   
+//                 existinItem.id=row.LoanID;
+//                 existinItem.packN=e.target.value;
+                
+//        }
+
+// colorHandler(row,false)
+// }
+
+
+// const handleBoxN=(e,row)=>{
+//   const existinItem=savedData.find(item=>{return item.id===row.LoanID})
+//     const existinItemId=savedData.indexOf(existinItem)
+//     console.log('id',existinItemId);
+//     if (!existinItem){
+//       setSavedData((prevState)=>([...prevState,{id:row.LoanID,boxN:e.target.value}]));
+//        } 
+//        else {   existinItem.id=row.LoanID;
+//                 existinItem.boxN=e.target.value;     
+//        }
+
+//   colorHandler(row,false)
+// }
   
 // accept
 const accepHandler=(e,row)=>{
  e.preventDefault()
+ 
+ console.log('save',savedData);
+
+ 
  // დაექსეპტებული ობჯექტი
  //შესასწორებელი
- const accptInfo={
-  loanId:savedData[0].id,
-  Status:savedData[0].value,
-  packN:packN,
-  boxN:boxN,
- }
+
  
- ctx.updateData(accptInfo)
+//  ctx.updateData(accptInfo)
  colorHandler(row,true)
- setSavedData([])
+ 
  
 }
 //accept color
@@ -127,7 +170,7 @@ const conditionalRowStyles = [
     selector: row => row.Status,
     
     cell: (row) => (
-      <Select className={classes.select} options={options} onChange={(e) => handleCheck(e,row)}/>
+      <Select className={classes.select} options={options} onChange={(e) =>acceptHandlerF('status',row,e.value) }/> //handleCheck(e,row)
     ),
     
 },
@@ -136,14 +179,14 @@ const conditionalRowStyles = [
     
     cell: (row) => (
     
-      <input className={classes.input} type='text' onChange={(e)=>handlePackN(e.target.value,row)}/>
+      <input className={classes.input} type='text' onChange={(e)=>acceptHandlerF('packN',row,e.target.value)}/>
     ),
 },
   {
     name: "ყუთის N",
     
     cell: (row) => (
-      <input className={classes.input} type='text' onChange={(e)=>handleBoxN(e.target.value,row)}/>
+      <input className={classes.input} type='text' onChange={(e)=>acceptHandlerF('boxN',row,e.target.value)}/>
     ),
 },
 {
