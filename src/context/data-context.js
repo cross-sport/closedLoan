@@ -10,10 +10,12 @@ export default DataContext
 
 
 export const DataContextProvider=(props)=>{
-    const [sendData,setSendData]=useState({})
+    const [sendData,setSendData]=useState([])
     
     const updateData=(newData)=>{
-        setSendData(newData);        
+        console.log(newData);
+        
+        setSendData((prevState)=>([...prevState,newData]));               
     }
 
     return <DataContext.Provider value={{

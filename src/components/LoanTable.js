@@ -53,17 +53,15 @@ const accepHandler=(e,row)=>{
  // დაექსეპტებული ობჯექტი
  //შესასწორებელი
  const accptInfo={
-  loanId:savedData.LoanID,
-  Status:savedData.value,
+  loanId:savedData[0].id,
+  Status:savedData[0].value,
   packN:packN,
   boxN:boxN,
-  savedData:savedData 
  }
  
  ctx.updateData(accptInfo)
-
- 
  colorHandler(row,true)
+ setSavedData([])
  
 }
 //accept color
@@ -166,7 +164,11 @@ const conditionalRowStyles = [
 
  
 
-  console.log(ctx.sendData);
+  
+  console.log('ctx',ctx.sendData);
+  
+  
+  
   
   return (
 
