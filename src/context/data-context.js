@@ -1,133 +1,32 @@
 import React from 'react'
 import { useState } from 'react'
 
-const dataMain=[
-    {
-        LoanID:2986,
-        FullName:'ვერა ფხაკაძე',
-        ClientID:2508,
-        CardNumber:37001001632,
-        LoanAgreementNo:'K/03012',
-        LoanAmount:300.00,
-        ISO:'USD',
-        DisburseDate:'2006-05-19 00:00:00.000',
-        CoverDate:'2007-03-19 00:00:00.000',
-        Product:"სტანდარტული მიკრო-სესხი",
-        LoanNode:"სამტრედია",
-        LoanOfficer:'გიორგი კილაძე',
-        CloseDate:'2011-02-15 00:00:00.000',
-        Disbursed_Officer:"გიორგი კილაძე",
-        ApplicationNode:"ქუთაისი 1",
-        Status:"naw",
-        toggleSelected:false
-      },
-      {
-        LoanID:5876,
-        FullName:'მურადი ჯულაყიძე',
-        ClientID:4809,
-        CardNumber:37001001510,
-        LoanAgreementNo:'K/06076',
-        LoanAmount:1000.00,
-        ISO:'GEL',
-        DisburseDate:'2006-05-19 00:00:00.000',
-        CoverDate:'2007-03-19 00:00:00.000',
-        Product:"განვადება",
-        LoanNode:"სამტრედია",
-        LoanOfficer:'გიორგი კილაძე',
-        CloseDate:'2011-02-15 00:00:00.000',
-        Disbursed_Officer:"გიორგი კილაძე",
-        ApplicationNode:"ქუთაისი 1",
-        Status:"naw",
-        toggleSelected:false
-      
-  },
-    {
-        LoanID:2985,
-        FullName:'ვერა ფხაკაძე',
-        ClientID:2508,
-        CardNumber:37001001632,
-        LoanAgreementNo:'K/03012',
-        LoanAmount:300.00,
-        ISO:'USD',
-        DisburseDate:'2006-05-19 00:00:00.000',
-        CoverDate:'2007-03-19 00:00:00.000',
-        Product:"სტანდარტული მიკრო-სესხი",
-        LoanNode:"სამტრედია",
-        LoanOfficer:'გიორგი კილაძე',
-        CloseDate:'2011-02-15 00:00:00.000',
-        Disbursed_Officer:"გიორგი კილაძე",
-        ApplicationNode:"ქუთაისი 1",
-        Status:"naw",
-        toggleSelected:false
-      },
-      {
-        LoanID:5875,
-        FullName:'მურადი ჯულაყიძე',
-        ClientID:4809,
-        CardNumber:37001001510,
-        LoanAgreementNo:'K/06076',
-        LoanAmount:1000.00,
-        ISO:'GEL',
-        DisburseDate:'2006-05-19 00:00:00.000',
-        CoverDate:'2007-03-19 00:00:00.000',
-        Product:"განვადება",
-        LoanNode:"სამტრედია",
-        LoanOfficer:'გიორგი კილაძე',
-        CloseDate:'2011-02-15 00:00:00.000',
-        Disbursed_Officer:"გიორგი კილაძე",
-        ApplicationNode:"ქუთაისი 1",
-        Status:"naw",
-        toggleSelected:false
-      
-  },
-      {
-        LoanID:5778,
-        FullName:'მურადი ჯულაყიძე',
-        ClientID:4809,
-        CardNumber:37001001510,
-        LoanAgreementNo:'K/06076',
-        LoanAmount:1000.00,
-        ISO:'GEL',
-        DisburseDate:'2006-05-19 00:00:00.000',
-        CoverDate:'2007-03-19 00:00:00.000',
-        Product:"განვადება",
-        LoanNode:"სამტრედია",
-        LoanOfficer:'გიორგი კილაძე',
-        CloseDate:'2011-02-15 00:00:00.000',
-        Disbursed_Officer:"გიორგი კილაძე",
-        ApplicationNode:"ქუთაისი 1",
-        Status:"naw",
-        toggleSelected:false
-      
-  }]
 
 const DataContext =React.createContext ({
     data:[],
   acceptData:(column,row,value)=>{},
   savedData:[],
   colorHandler:()=>{},
-  conditionalRowStyles:[]
+  conditionalRowStyles:[],
+  sendRequestHandler:()=>{},
+  searcheButtonHandler:(a,b)=>{},
 })
 
 export default DataContext
 
 
 export const DataContextProvider=(props)=>{
-    const [savedData,setSavedData]=useState([])  // {id , status,packN,boxN}
-    const [data,setData]=useState(dataMain)
-    
-   
-
-    
+    const [savedData,setSavedData]=useState([])  // {id , status,packN,boxN}  data for send
+    const [data,setData]=useState([]) //given data
     
   const acceptHandlerF =(column, row, value)=>{
     
-    const existinItem=savedData.find(item=>{return item.id===row.LoanID})
+    const existinItem=savedData.find(item=>{return item.id===row.LoanId})
     if (!existinItem){
-      setSavedData((prevState)=>([...prevState,Object.assign({id:row.LoanID, [column]:column=value})]));
+      setSavedData((prevState)=>([...prevState,Object.assign({id:row.LoanId, [column]:column=value})]));
        } 
        else { 
-                existinItem.id=row.LoanID;
+                existinItem.id=row.LoanId;
                 existinItem[column]=value
             }
 
@@ -135,11 +34,20 @@ export const DataContextProvider=(props)=>{
   }
 
   
+  const searcheNewdata= async (personalNo,agreementNo)=>{        
+    console.log(personalNo,agreementNo);
+    const response = await fetch(`http://localhost:5000/api?personalNo=${personalNo}&agreementNo=${agreementNo}`);
+    const newData=await response.json();
+    console.log(newData);  
+    setData(newData[0])  
+  }
+
+
 //accept color
 
 const colorHandler=(row,action)=>{
     const updatedData = data.map(item => {
-      if (row.LoanID !== item.LoanID) {
+      if (row.LoanId !== item.LoanId) {
         return item;
       }
     
@@ -160,12 +68,18 @@ const colorHandler=(row,action)=>{
       }
     }];
 
+    const submitHandler=()=>{
+        console.log("send data  ", savedData);        
+    }
+
     return <DataContext.Provider value={{
         acceptData:acceptHandlerF,
         savedData:savedData,
         colorHandler:colorHandler,
         conditionalRowStyles:conditionalRowStyles,
-        data:data
+        data:data,
+        sendRequestHandler:submitHandler,
+        searcheButtonHandler:searcheNewdata
 
     }} >
         {props.children}

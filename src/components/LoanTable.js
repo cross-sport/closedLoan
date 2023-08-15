@@ -11,6 +11,7 @@ import DataContext from '../context/data-context';
 const options = [
   { value: 'მიღებული', label: 'მიღებული' },
   { value: 'ნაწილობრივ მიღებული', label: 'ნაწილობრივ მიღებული' },
+  { value: 'განადგურებული', label: 'განადგურებული' },
 ]
 
 
@@ -27,23 +28,25 @@ const accepHandler=(e,row)=>{
     {
       name: 'სესხის N',
       width: "6rem" ,      
-      selector: row => row.LoanID,
+      selector: row => row.LoanId,
   },
     {
       name: 'სახელი და გვარი',
-      selector: row => row.FullName,
+      width: "8rem" , 
+      selector: row => row.ClientFullName,
   },
     {
       name: 'პირადი ნომერი',
-      selector: row => row.CardNumber,
+      selector: row => row.PersonalNo,
   },
     {
       name: 'ხელშეკრულების N',
-      selector: row => row.LoanAgreementNo,
+      width: "10rem" , 
+      selector: row => row.AgreementNo,
   },
     {
       name: 'გაცემის თარიღი',
-      selector: row => row.DisburseDate,
+      selector: row => row.StartDate,
   },
     {
       name: 'დახურვის თარიღი',
@@ -51,12 +54,12 @@ const accepHandler=(e,row)=>{
   },
     {
       name: 'ფილიალი',
-      selector: row => row.LoanNode,
+      selector: row => row.ApplicationDept,
   },
   {
     name: "სტატუსი",
+    width: "10rem" , 
     selector: row => row.Status,
-    
     cell: (row) => (
       <Select className={classes.select} options={options} onChange={(e) =>ctx.acceptData('status',row,e.value) }/> //handleCheck(e,row)
     ),
@@ -64,7 +67,7 @@ const accepHandler=(e,row)=>{
 },
   {
     name: "შეკვრის N",
-    
+    selector: row => row.packN,
     cell: (row) => (
     
       <input className={classes.input} type='text' onChange={(e)=>ctx.acceptData('packN',row,e.target.value)}/>
@@ -72,13 +75,13 @@ const accepHandler=(e,row)=>{
 },
   {
     name: "ყუთის N",
-    
+    selector: row => row.boxN,
     cell: (row) => (
       <input className={classes.input} type='text' onChange={(e)=>ctx.acceptData('boxN',row,e.target.value)}/>
     ),
 },
 {
-  
+  selector:row=>row.toggleSelected,
   width: "4.5rem" ,
   cell: (row) => (
     <a href='submit' className={classes.btn}  onClick={(e)=>accepHandler(e,row)}><img className={classes.ico} src={acc}></img></a>
