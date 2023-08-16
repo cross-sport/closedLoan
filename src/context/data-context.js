@@ -38,7 +38,6 @@ export const DataContextProvider=(props)=>{
     console.log(personalNo,agreementNo);
     const response = await fetch(`http://localhost:5000/api?personalNo=${personalNo}&agreementNo=${agreementNo}`);
     const newData=await response.json();
-    console.log(newData);  
     setData(newData[0])  
   }
 
@@ -68,8 +67,19 @@ const colorHandler=(row,action)=>{
       }
     }];
 
-    const submitHandler=()=>{
-        console.log("send data  ", savedData);        
+    const submitHandler=async()=>{
+        const newData=await fetch('http://localhost:5000/update',{
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json',
+            'Accept':'application/json'
+          },
+          body:JSON.stringify(
+            {savedData}
+          )
+        }).then(res=>res.json())
+        console.log(newData);
+                
     }
 
     return <DataContext.Provider value={{

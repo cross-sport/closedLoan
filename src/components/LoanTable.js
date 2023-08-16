@@ -59,9 +59,9 @@ const accepHandler=(e,row)=>{
   {
     name: "სტატუსი",
     width: "10rem" , 
-    selector: row => row.Status,
+    selector: row => row.Status,    
     cell: (row) => (
-      <Select className={classes.select} options={options} onChange={(e) =>ctx.acceptData('status',row,e.value) }/> //handleCheck(e,row)
+      <Select className={classes.select} options={options} defaultValue={{ label:`${row.Status || ''}`, value: row.Status }} onChange={(e) =>ctx.acceptData('status',row,e.value) }/> //handleCheck(e,row)
     ),
     
 },
@@ -70,14 +70,14 @@ const accepHandler=(e,row)=>{
     selector: row => row.packN,
     cell: (row) => (
     
-      <input className={classes.input} type='text' onChange={(e)=>ctx.acceptData('packN',row,e.target.value)}/>
+      <input className={classes.input} type='text' defaultValue={row.packN || ''} onChange={(e)=>ctx.acceptData('packN',row,e.target.value)}/>
     ),
 },
   {
     name: "ყუთის N",
     selector: row => row.boxN,
     cell: (row) => (
-      <input className={classes.input} type='text' onChange={(e)=>ctx.acceptData('boxN',row,e.target.value)}/>
+      <input className={classes.input} type='text' defaultValue={row.boxN || ''} onChange={(e)=>ctx.acceptData('boxN',row,e.target.value)}/>
     ),
 },
 {
@@ -91,6 +91,8 @@ const accepHandler=(e,row)=>{
   
   ];
 
+
+console.log(ctx.data.Status);
 
   return (
 

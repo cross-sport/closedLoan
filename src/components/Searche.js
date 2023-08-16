@@ -30,7 +30,7 @@ import DataContext from '../context/data-context';
           <input type='text' id='LoanAgreementNo' ref={loanAgreementNoref} placeholder='ხელშეკრულების ნომერი'/>
           
           <button onClick={submitHandler}>ძებნა</button>
-          <button onClick={ctx.submitHandler} >გაგზავნა</button>  
+          <button onClick={ctx.sendRequestHandler} >გაგზავნა</button>  
           
         </div>      
                 
