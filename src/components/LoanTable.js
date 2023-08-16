@@ -61,7 +61,7 @@ const accepHandler=(e,row)=>{
     width: "10rem" , 
     selector: row => row.Status,    
     cell: (row) => (
-      <Select className={classes.select} options={options} defaultValue={{ label:`${row.Status || ''}`, value: row.Status }} onChange={(e) =>ctx.acceptData('status',row,e.value) }/> //handleCheck(e,row)
+      <Select className={classes.select} options={options} defaultValue={{ label:`${row.Status || ''}`, value: row.Status }} onChange={(e) =>ctx.acceptData('Status',row,e.value) }/> //handleCheck(e,row)
     ),
     
 },
@@ -92,7 +92,7 @@ const accepHandler=(e,row)=>{
   ];
 
 
-console.log(ctx.data.Status);
+
 
   return (
 

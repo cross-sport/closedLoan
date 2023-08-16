@@ -12,7 +12,8 @@ import DataContext from '../context/data-context';
   
   //searche button
     function submitHandler(event) {
-      event.preventDefault();      
+      event.preventDefault();
+      
       
       const serchInfo = {
         CardNumber: cardNumberRef.current.value,

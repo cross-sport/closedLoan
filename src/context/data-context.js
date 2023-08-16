@@ -21,16 +21,21 @@ export const DataContextProvider=(props)=>{
     
   const acceptHandlerF =(column, row, value)=>{
     
-    const existinItem=savedData.find(item=>{return item.id===row.LoanId})
+    console.log(row.LoanId,column,value);
+    
+    
+    const existinItem=savedData.find(item=>{return item.LoanId===row.LoanId})
     if (!existinItem){
-      setSavedData((prevState)=>([...prevState,Object.assign({id:row.LoanId, [column]:column=value})]));
+      setSavedData((prevState)=>([...prevState,Object.assign({LoanId:row.LoanId, [column]:column=value})]));
        } 
        else { 
-                existinItem.id=row.LoanId;
+                existinItem.LoanId=row.LoanId;
                 existinItem[column]=value
             }
 
        colorHandler(row,false)
+       
+       
   }
 
   
@@ -38,13 +43,17 @@ export const DataContextProvider=(props)=>{
     console.log(personalNo,agreementNo);
     const response = await fetch(`http://localhost:5000/api?personalNo=${personalNo}&agreementNo=${agreementNo}`);
     const newData=await response.json();
-    setData(newData[0])  
+    setData(newData[0]) 
+    setSavedData(newData[0]) 
   }
 
 
 //accept color
 
 const colorHandler=(row,action)=>{
+  console.log('savedData ', savedData);
+    console.log(row.LoanId);
+  
     const updatedData = data.map(item => {
       if (row.LoanId !== item.LoanId) {
         return item;
@@ -78,7 +87,7 @@ const colorHandler=(row,action)=>{
             {savedData}
           )
         }).then(res=>res.json())
-        console.log(newData);
+        
                 
     }
 
