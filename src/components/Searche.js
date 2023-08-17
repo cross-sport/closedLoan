@@ -2,12 +2,14 @@ import React,{useRef} from 'react'
 import classes from './Searche.module.css'
 import { useContext } from 'react';
 import DataContext from '../context/data-context';
+import { useState } from 'react';
 
 
 
  const Searche = (props) => {
     const cardNumberRef = useRef('');
     const loanAgreementNoref = useRef('');
+    const [buttonText,setButtonText]=useState();
   const ctx=useContext(DataContext)
   
   //searche button
@@ -23,6 +25,7 @@ import DataContext from '../context/data-context';
       ctx.searcheButtonHandler(serchInfo.CardNumber,serchInfo.LoanAgreementNo);
     }
   
+       
     return (
       <form>
         <div className={classes.control}>
@@ -30,8 +33,8 @@ import DataContext from '../context/data-context';
           <input type='text' id='cardNumber' ref={cardNumberRef} placeholder='პირადი ნომერი'/>
           <input type='text' id='LoanAgreementNo' ref={loanAgreementNoref} placeholder='ხელშეკრულების ნომერი'/>
           
-          <button onClick={submitHandler}>ძებნა</button>
-          <button onClick={ctx.sendRequestHandler} >გაგზავნა</button>  
+          <button  onClick={submitHandler}>ძებნა</button>
+          <button disabled={ctx.disableButton} style={{backgroundColor : ctx.disableButton && 'grey' , color:ctx.disableButton && '#fe7581'}}  onClick={ctx.sendRequestHandler}>{ctx.disableButton?'აირჩიეთ მხოლოდ 1':'გაგზავნა'}</button>  
           
         </div>      
                 

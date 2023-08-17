@@ -3,21 +3,23 @@ import { useState } from 'react'
 
 
 const DataContext =React.createContext ({
-    data:[],
   acceptData:(column,row,value)=>{},
   savedData:[],
   colorHandler:()=>{},
   conditionalRowStyles:[],
   sendRequestHandler:()=>{},
   searcheButtonHandler:(a,b)=>{},
+  disableButtonChecker:()=>{},
+  disableButton:false
 })
 
 export default DataContext
 
 
 export const DataContextProvider=(props)=>{
-    const [savedData,setSavedData]=useState([])  // {id , status,packN,boxN}  data for send
-    const [data,setData]=useState([]) //given data
+    const [savedData,setSavedData]=useState([])  // {LoanId , Status,packN,boxN,...}  data for send
+    const [disableButton,setDisableButton]=useState(false)
+   
     
   const acceptHandlerF =(column, row, value)=>{ 
     
@@ -29,18 +31,15 @@ export const DataContextProvider=(props)=>{
                 existinItem.LoanId=row.LoanId;
                 existinItem[column]=value
             }
-
-       colorHandler(row,false)
-       
-       
+    colorHandler(row,false)          
+    
   }
-
   
   const searcheNewdata= async (personalNo,agreementNo)=>{        
     console.log(personalNo,agreementNo);
     const response = await fetch(`http://localhost:5000/api?personalNo=${personalNo}&agreementNo=${agreementNo}`);
     const newData=await response.json();
-    setData(newData[0]) 
+   
     setSavedData(newData[0]) 
   }
 
@@ -48,23 +47,46 @@ export const DataContextProvider=(props)=>{
 //accept color
 
 const colorHandler=(row,action)=>{
- 
-    console.log(savedData);
-  
-    const updatedData = data.map(item => {
+     console.log(savedData);
+     
+    const updatedData = savedData.map(item => {
       if (row.LoanId !== item.LoanId) {
         return item;
+      } else 
+    
+      if(action) {
+        return {...item,
+          toggleSelected: !item.toggleSelected
+        }
       }
-    
-      return {
-        ...item,
-        toggleSelected: action
-      };
+      else {
+        return {...item,
+        toggleSelected: false
+      }
+      }
     });
-    
-    setData(updatedData);
     setSavedData(updatedData)
   }
+
+  const disableButtonChecker=()=>{
+    const counter=savedData.filter(el=>el.toggleSelected===true)
+    counter.length>1?setDisableButton(true):setDisableButton(false)
+  }
+
+  const submitHandler=async()=>{
+    const newData=await fetch('http://localhost:5000/update',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Accept':'application/json'
+      },
+      body:JSON.stringify(
+        {savedData}
+      )
+    }).then(res=>res.json())
+     console.log(newData);           
+}
+
   const conditionalRowStyles = [
     {
       when: row => row.toggleSelected,
@@ -74,30 +96,16 @@ const colorHandler=(row,action)=>{
       }
     }];
 
-    const submitHandler=async()=>{
-        const newData=await fetch('http://localhost:5000/update',{
-          method:'POST',
-          headers:{
-            'Content-Type':'application/json',
-            'Accept':'application/json'
-          },
-          body:JSON.stringify(
-            {savedData}
-          )
-        }).then(res=>res.json())
-        
-                
-    }
-
     return <DataContext.Provider value={{
         acceptData:acceptHandlerF,
         savedData:savedData,
         colorHandler:colorHandler,
         conditionalRowStyles:conditionalRowStyles,
-        data:data,
         sendRequestHandler:submitHandler,
-        searcheButtonHandler:searcheNewdata
-
+        searcheButtonHandler:searcheNewdata,
+        disableButtonChecker:disableButtonChecker,
+        disableButton:disableButton
+        
     }} >
         {props.children}
     </DataContext.Provider>    

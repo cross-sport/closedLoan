@@ -9,14 +9,14 @@ import DataContext from './context/data-context';
 
 function App() {
  const ctx=useContext(DataContext)
- console.log(ctx.data.length);
+ console.log(ctx.savedData.length);
   return (
     <React.Fragment>
       <section>
         <Searche/>
       </section>
-      {ctx.data.length===0 && <section><p>მონაცემი ვერ მოიძებნა</p></section>}
-      {ctx.data.length!==0 && <section><LoanTable /></section>}
+      {ctx.savedData.length===0 && <section><p>მონაცემი ვერ მოიძებნა</p></section>}
+      {ctx.savedData.length!==0 && <section><LoanTable /></section>}
       
     </React.Fragment>
   );

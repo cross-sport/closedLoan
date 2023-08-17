@@ -9,6 +9,7 @@ import DataContext from '../context/data-context';
 
 
 const options = [
+  { value: ' ', label: ' ' },
   { value: 'მიღებული', label: 'მიღებული' },
   { value: 'ნაწილობრივ მიღებული', label: 'ნაწილობრივ მიღებული' },
   { value: 'განადგურებული', label: 'განადგურებული' },
@@ -66,7 +67,7 @@ const accepHandler=(e,row)=>{
        styles={{
         control: (baseStyles, state) => ({
           ...baseStyles,
-          borderColor: state.isFocused ? 'rgb(6, 172, 238)' : 'rgb(6, 172, 238)',
+          borderColor: state.isFocused ? '#06acee' : '#06acee',
           fontSize:state.isFocused ? '0.9rem' : '0.9rem',
           
         }),
@@ -94,16 +95,17 @@ const accepHandler=(e,row)=>{
   selector:row=>row.toggleSelected,
   width: "4.5rem" ,
   cell: (row) => (
-    <a href='submit' className={classes.btn}  onClick={(e)=>accepHandler(e,row)}><img className={classes.ico} src={acc}></img></a>
+    <a href='submit' className={classes.btn}  onClick={(e)=>accepHandler(e,row)}><img className={classes.ico} src={acc} alt='accept'></img></a>
     
   ),
 },
   
   ];
 
+ctx.disableButtonChecker()  // send button disable function
 
   return (
 
-     <DataTable columns={columns}  data={ctx.data} fixedHeader  conditionalRowStyles={ctx.conditionalRowStyles}   />
+     <DataTable columns={columns}  data={ctx.savedData} fixedHeader  conditionalRowStyles={ctx.conditionalRowStyles}   />
   )
 }
