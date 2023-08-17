@@ -5,7 +5,10 @@
     color: rgb(6, 172, 238);
     border-color: #39d10b;
     border-radius: 2rem;
-}
+    font-size: small;    
+   }
+
+  
 
 .input {
     text-align: center;

@@ -15,6 +15,7 @@ const options = [
 ]
 
 
+
 export const LoanTable = (props) => {
   const ctx=useContext(DataContext)
   
@@ -58,10 +59,19 @@ const accepHandler=(e,row)=>{
   },
   {
     name: "სტატუსი",
-    width: "10rem" , 
+    width: "11rem" , 
     selector: row => row.Status,    
     cell: (row) => (
-      <Select className={classes.select} options={options} defaultValue={{ label:`${row.Status || ''}`, value: row.Status }} onChange={(e) =>ctx.acceptData('Status',row,e.value) }/> //handleCheck(e,row)
+      <Select className={classes.select} options={options}
+       styles={{
+        control: (baseStyles, state) => ({
+          ...baseStyles,
+          borderColor: state.isFocused ? 'rgb(6, 172, 238)' : 'rgb(6, 172, 238)',
+          fontSize:state.isFocused ? '0.9rem' : '0.9rem',
+          
+        }),
+      }} 
+      menuPortalTarget={document.body}  defaultValue={{ label:`${row.Status || ''}`, value: row.Status }} onChange={(e) =>ctx.acceptData('Status',row,e.value) }/> //handleCheck(e,row)
     ),
     
 },
@@ -92,10 +102,8 @@ const accepHandler=(e,row)=>{
   ];
 
 
-
-
   return (
 
-     <DataTable columns={columns} data={ctx.data} fixedHeader  conditionalRowStyles={ctx.conditionalRowStyles}   />
+     <DataTable columns={columns}  data={ctx.data} fixedHeader  conditionalRowStyles={ctx.conditionalRowStyles}   />
   )
 }

@@ -19,10 +19,7 @@ export const DataContextProvider=(props)=>{
     const [savedData,setSavedData]=useState([])  // {id , status,packN,boxN}  data for send
     const [data,setData]=useState([]) //given data
     
-  const acceptHandlerF =(column, row, value)=>{
-    
-    console.log(row.LoanId,column,value);
-    
+  const acceptHandlerF =(column, row, value)=>{ 
     
     const existinItem=savedData.find(item=>{return item.LoanId===row.LoanId})
     if (!existinItem){
@@ -51,8 +48,8 @@ export const DataContextProvider=(props)=>{
 //accept color
 
 const colorHandler=(row,action)=>{
-  console.log('savedData ', savedData);
-    console.log(row.LoanId);
+ 
+    console.log(savedData);
   
     const updatedData = data.map(item => {
       if (row.LoanId !== item.LoanId) {
@@ -66,6 +63,7 @@ const colorHandler=(row,action)=>{
     });
     
     setData(updatedData);
+    setSavedData(updatedData)
   }
   const conditionalRowStyles = [
     {
