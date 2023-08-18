@@ -18,3 +18,10 @@
   button{
     margin-right: 1rem;
   }
+
+  .view{
+    width: auto;
+    height: auto;
+    text-align: center;
+    font-size: large;
+  }

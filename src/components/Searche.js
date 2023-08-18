@@ -2,20 +2,15 @@ import React,{useRef} from 'react'
 import classes from './Searche.module.css'
 import { useContext } from 'react';
 import DataContext from '../context/data-context';
-import { useState } from 'react';
 
-
-
- const Searche = (props) => {
+ const Searche = () => {
     const cardNumberRef = useRef('');
     const loanAgreementNoref = useRef('');
-    const [buttonText,setButtonText]=useState();
   const ctx=useContext(DataContext)
   
   //searche button
     function submitHandler(event) {
       event.preventDefault();
-      
       
       const serchInfo = {
         CardNumber: cardNumberRef.current.value,
@@ -35,9 +30,9 @@ import { useState } from 'react';
           
           <button  onClick={submitHandler}>ძებნა</button>
           <button disabled={ctx.disableButton} style={{backgroundColor : ctx.disableButton && 'grey' , color:ctx.disableButton && '#fe7581'}}  onClick={ctx.sendRequestHandler}>{ctx.disableButton?'აირჩიეთ მხოლოდ 1':'გაგზავნა'}</button>  
-          
+          <button onClick={ctx.countSecViewHandler} className={classes.view}>+</button>
         </div>      
-                
+        
       </form>
     );
 }

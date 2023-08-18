@@ -10,6 +10,10 @@ const DataContext =React.createContext ({
   sendRequestHandler:()=>{},
   searcheButtonHandler:(a,b)=>{},
   disableButtonChecker:()=>{},
+  countButtonHandler:()=>{},
+  cChangedData:[],
+  countSecView:false,
+  countSecViewHandler:()=>{},
   disableButton:false
 })
 
@@ -18,7 +22,9 @@ export default DataContext
 
 export const DataContextProvider=(props)=>{
     const [savedData,setSavedData]=useState([])  // {LoanId , Status,packN,boxN,...}  data for send
-    const [disableButton,setDisableButton]=useState(false)
+    const [cChangedData,setCChangedData]=useState([]) // get count of changed Status which not equal ' '
+    const [countSecView,setCountSecView]=useState(false)// view button section view or hide
+    const [disableButton,setDisableButton]=useState(false) 
    
     
   const acceptHandlerF =(column, row, value)=>{ 
@@ -35,15 +41,6 @@ export const DataContextProvider=(props)=>{
     
   }
   
-  const searcheNewdata= async (personalNo,agreementNo)=>{        
-    console.log(personalNo,agreementNo);
-    const response = await fetch(`http://localhost:5000/api?personalNo=${personalNo}&agreementNo=${agreementNo}`);
-    const newData=await response.json();
-   
-    setSavedData(newData[0]) 
-  }
-
-
 //accept color
 
 const colorHandler=(row,action)=>{
@@ -71,6 +68,25 @@ const colorHandler=(row,action)=>{
   const disableButtonChecker=()=>{
     const counter=savedData.filter(el=>el.toggleSelected===true)
     counter.length>1?setDisableButton(true):setDisableButton(false)
+  }
+
+  // changed status counter view
+  const countSecViewHandler=(e)=>{
+    e.preventDefault()    
+    setCountSecView(!countSecView)
+  }
+
+  const countChanged=async ()=>{        
+    const response = await fetch(`http://localhost:5000/count`);
+    const countData=await response.json();
+   setCChangedData(countData[0])
+  }
+
+  const searcheNewdata= async (personalNo,agreementNo)=>{        
+    console.log(personalNo,agreementNo);
+    const response = await fetch(`http://localhost:5000/api?personalNo=${personalNo}&agreementNo=${agreementNo}`);
+    const newData=await response.json();
+    setSavedData(newData[0]) 
   }
 
   const submitHandler=async()=>{
@@ -104,6 +120,10 @@ const colorHandler=(row,action)=>{
         sendRequestHandler:submitHandler,
         searcheButtonHandler:searcheNewdata,
         disableButtonChecker:disableButtonChecker,
+        countButtonHandler:countChanged,
+        cChangedData:cChangedData,
+        countSecView:countSecView,
+        countSecViewHandler:countSecViewHandler,
         disableButton:disableButton
         
     }} >
