@@ -67,7 +67,7 @@ const colorHandler=(row,action)=>{
 
   const disableButtonChecker=()=>{
     const counter=savedData.filter(el=>el.toggleSelected===true)
-    counter.length>1?setDisableButton(true):setDisableButton(false)
+    counter.length>1||counter.length===0?setDisableButton(true):setDisableButton(false)
   }
 
   // changed status counter view

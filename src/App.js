@@ -9,7 +9,6 @@ import { CountChanged } from './components/CountChanged';
 
 function App() {
  const ctx=useContext(DataContext)
- console.log(ctx.countSecView);
  
   return (
     <React.Fragment>
