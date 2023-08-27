@@ -9,9 +9,8 @@ import DataContext from '../context/data-context';
   const ctx=useContext(DataContext)
   
   //searche button
-    function submitHandler(event) {
+    function searchButtonHandler(event) {
       event.preventDefault();
-      
       const serchInfo = {
         CardNumber: cardNumberRef.current.value,
         LoanAgreementNo: loanAgreementNoref.current.value,
@@ -19,21 +18,26 @@ import DataContext from '../context/data-context';
         
       ctx.searcheButtonHandler(serchInfo.CardNumber,serchInfo.LoanAgreementNo);
     }
+
+//     const submitHandler=(e)=>{
+// e.preventDefault();
+// ctx.sendRequestHandler()
+//     }
   
        
     return (
-      <form>
+      <div>
         <div className={classes.control}>
           
           <input type='text' id='cardNumber' ref={cardNumberRef} placeholder='პირადი ნომერი'/>
           <input type='text' id='LoanAgreementNo' ref={loanAgreementNoref} placeholder='ხელშეკრულების ნომერი'/>
           
-          <button  onClick={submitHandler}>ძებნა</button>
+          <button  onClick={searchButtonHandler}>ძებნა</button>
           <button disabled={ctx.disableButton} style={{backgroundColor : ctx.disableButton && 'grey' , color:ctx.disableButton && '#fe7581'}}  onClick={ctx.sendRequestHandler}>{ctx.disableButton?'აირჩიეთ მხოლოდ 1':'გაგზავნა'}</button>  
           <button onClick={ctx.countSecViewHandler} className={classes.view}>+</button>
         </div>      
         
-      </form>
+      </div>
     );
 }
 

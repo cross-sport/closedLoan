@@ -6,7 +6,7 @@ import DataContext from '../context/data-context'
 
 export const CountChanged = () => {
    const ctx=useContext(DataContext)
-   console.log(ctx.cChangedData);
+   
    
   return (
     <div className={classes.control}>

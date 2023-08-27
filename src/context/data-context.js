@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
-
+import axios from 'axios'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const DataContext =React.createContext ({
   acceptData:(column,row,value)=>{},
@@ -43,9 +45,7 @@ export const DataContextProvider=(props)=>{
   
 //accept color
 
-const colorHandler=(row,action)=>{
-     console.log(savedData);
-     
+const colorHandler=(row,action)=>{    
     const updatedData = savedData.map(item => {
       if (row.LoanId !== item.LoanId) {
         return item;
@@ -65,6 +65,7 @@ const colorHandler=(row,action)=>{
     setSavedData(updatedData)
   }
 
+
   const disableButtonChecker=()=>{
     const counter=savedData.filter(el=>el.toggleSelected===true)
     counter.length>1||counter.length===0?setDisableButton(true):setDisableButton(false)
@@ -76,32 +77,78 @@ const colorHandler=(row,action)=>{
     setCountSecView(!countSecView)
   }
 
-  const countChanged=async ()=>{        
-    const response = await fetch(`http://localhost:5000/count`);
-    const countData=await response.json();
-   setCChangedData(countData[0])
-  }
 
-  const searcheNewdata= async (personalNo,agreementNo)=>{        
-    console.log(personalNo,agreementNo);
-    const response = await fetch(`http://localhost:5000/api?personalNo=${personalNo}&agreementNo=${agreementNo}`);
-    const newData=await response.json();
-    setSavedData(newData[0]) 
-  }
+  
+  const countChanged = async () => {
+    try {
+      // const response = await axios.get('http://localhost:5000/count');
+      const response = await axios.get('http://10.118.27.80:5000/count');
+  
+      const countData = response.data;
+      setCChangedData(countData[0]);
+    } catch (error) {
+      // Handle error here
+      console.error('Error fetching count data:', error);
+    }
+  };
 
-  const submitHandler=async()=>{
-    const newData=await fetch('http://localhost:5000/update',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'Accept':'application/json'
-      },
-      body:JSON.stringify(
-        {savedData}
-      )
-    }).then(res=>res.json())
-     console.log(newData);           
-}
+
+  const searcheNewdata = async (personalNo, agreementNo) => {
+    try {
+      const response = await axios.get(`http://10.118.27.80:5000/api`, {
+        params: {
+          personalNo: personalNo,
+          agreementNo: agreementNo,
+        },
+      });
+  
+      const newData = response.data;
+      setSavedData(newData[0]);
+    } catch (error) {
+      // Handle error here
+      console.error('Error fetching data:', error);
+    }
+  };
+
+const submitHandler = (e) => {
+  
+    savedData.map(async loan=>{
+      console.log(loan);
+      
+      if(loan.toggleSelected===true){        
+        try {
+    const response = await axios.post('http://10.118.27.80:5000/update', loan);
+    const newData = response.data;    
+    console.log('statusi : ',newData);
+  
+           // Show success toast
+      toast.success('წარმატებით შესრულდა', {
+        position: 'top-right',
+        autoClose: 3000, // 3 seconds
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      console.log('test');
+      
+      setSavedData([])
+  } catch (error) {
+    // Handle error here
+    console.error('Error submitting data:', error);
+    toast.error('დაფიქსირდა შეცდომა', {
+      position: 'top-right',
+      autoClose: 5000, // 5 seconds
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  } } })
+};
+
 
   const conditionalRowStyles = [
     {
