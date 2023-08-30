@@ -19,11 +19,6 @@ import DataContext from '../context/data-context';
       ctx.searcheButtonHandler(serchInfo.CardNumber,serchInfo.LoanAgreementNo);
     }
 
-//     const submitHandler=(e)=>{
-// e.preventDefault();
-// ctx.sendRequestHandler()
-//     }
-  
        
     return (
       <div>

@@ -9,7 +9,6 @@ import DataContext from '../context/data-context';
 
 
 const options = [
-  { value: ' ', label: ' ' },
   { value: 'მიღებული', label: 'მიღებული' },
   { value: 'ნაწილობრივ მიღებული', label: 'ნაწილობრივ მიღებული' },
   { value: 'განადგურებული', label: 'განადგურებული' },
@@ -81,7 +80,7 @@ const accepHandler=(e,row)=>{
     selector: row => row.packN,
     cell: (row) => (
     
-      <input className={classes.input} type='text' defaultValue={row.packN || ''} onChange={(e)=>ctx.acceptData('packN',row,e.target.value)}/>
+      <input className={classes.input} type='text' placeholder="შეავსეთ ველი*" defaultValue={row.packN || ''} onChange={(e)=>ctx.acceptData('packN',row,e.target.value)}/>
     ),
 },
   {

@@ -52,6 +52,8 @@ const colorHandler=(row,action)=>{
       } else 
     
       if(action) {
+        console.log(item);
+        
         return {...item,
           toggleSelected: !item.toggleSelected
         }
@@ -67,7 +69,7 @@ const colorHandler=(row,action)=>{
 
 
   const disableButtonChecker=()=>{
-    const counter=savedData.filter(el=>el.toggleSelected===true)
+    const counter=savedData.filter(el=>(el.toggleSelected===true && el.Status!==" " && el.packN.trim()!==""))    
     counter.length>1||counter.length===0?setDisableButton(true):setDisableButton(false)
   }
 
