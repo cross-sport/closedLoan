@@ -13,7 +13,9 @@ const DataContext =React.createContext ({
   searcheButtonHandler:(a,b)=>{},
   disableButtonChecker:()=>{},
   countButtonHandler:()=>{},
+  countSelectedPackHandler:packN=>{},
   cChangedData:[],
+  selectedPackCount:[],
   countSecView:false,
   countSecViewHandler:()=>{},
   disableButton:false
@@ -25,8 +27,10 @@ export default DataContext
 export const DataContextProvider=(props)=>{
     const [savedData,setSavedData]=useState([])  // {LoanId , Status,packN,boxN,...}  data for send
     const [cChangedData,setCChangedData]=useState([]) // get count of changed Status which not equal ' '
+    const [selectedPackCount,setSelectedPackCount]=useState([]) // get count of selected packN which equal packN
     const [countSecView,setCountSecView]=useState(false)// view button section view or hide
     const [disableButton,setDisableButton]=useState(false) 
+  
    
     
   const acceptHandlerF =(column, row, value)=>{ 
@@ -79,13 +83,12 @@ const colorHandler=(row,action)=>{
     setCountSecView(!countSecView)
   }
 
-
+// get changed status
   
   const countChanged = async () => {
     try {
       // const response = await axios.get('http://localhost:5000/count');
       const response = await axios.get('http://10.118.27.80:5000/count');
-  
       const countData = response.data;
       setCChangedData(countData[0]);
     } catch (error) {
@@ -94,6 +97,26 @@ const colorHandler=(row,action)=>{
     }
   };
 
+  // get data which packN="selected pack N"
+
+  const countSelectedPack=async (packN) => {
+    console.log(packN);
+    try {
+      const response = await axios.get(`http://10.118.27.80:5000/packN`, {
+        params: {
+          packN: packN
+        },
+      });
+      const packNData = response.data;
+      setSelectedPackCount(packNData[0]);
+    } catch (error) {
+      // Handle error here
+      console.error('Error fetching data:', error);
+    }
+  };
+
+
+ //searche new data 
 
   const searcheNewdata = async (personalNo, agreementNo) => {
     try {
@@ -170,7 +193,9 @@ const submitHandler = (e) => {
         searcheButtonHandler:searcheNewdata,
         disableButtonChecker:disableButtonChecker,
         countButtonHandler:countChanged,
+        countSelectedPackHandler:countSelectedPack,
         cChangedData:cChangedData,
+        selectedPackCount:selectedPackCount,
         countSecView:countSecView,
         countSecViewHandler:countSecViewHandler,
         disableButton:disableButton
