@@ -119,6 +119,7 @@ const colorHandler=(row,action)=>{
  //searche new data 
 
   const searcheNewdata = async (personalNo, agreementNo) => {
+    setSavedData([])
     try {
       const response = await axios.get(`http://10.118.27.80:5000/api`, {
         params: {

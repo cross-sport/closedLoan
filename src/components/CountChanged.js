@@ -24,7 +24,7 @@ export const CountChanged = () => {
           <button onClick={ctx.countButtonHandler}>დათვლა</button>
         </div>
         <div className={classes.control}>
-          <p>აღნიშნული ყუთში საბუთების რაოდენობა</p>
+          <p>აღნიშნულ შეკვრაში საბუთების რაოდენობა</p>
           <input type='text' disabled={true} placeholder='რაოდენობა' value={ctx.selectedPackCount}/>
           <input type='text' placeholder='ყუთის N' ref={packNumberRef} />
           <button onClick={searchButtonHandler}>დათვლა</button>
